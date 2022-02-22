@@ -8,17 +8,18 @@ const App: FC = () => {
   const [deadline, setDeadline] = useState<number>(0);
   const [todoList, setTodoList] = useState<ITask[]>([]);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    if (event.target.name === "task") {
-      setTask(event.target.value);
-    } else {
-      setDeadline(Number(event.target.value));
-    }
+  const taskChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setTask(event.target.value);
+  };
+
+  const deadlineChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setDeadline(Number(event.target.value));
   };
 
   const addTask = (): void => {
-    const newTask = { taskName: task, deadline: deadline };
-    setTodoList([...todoList, newTask]);
+    const newTask = { taskName: task, deadline: deadline } as ITask;
+    const tasks = [...todoList, newTask];
+    setTodoList(tasks);
     setTask("");
     setDeadline(0);
   };
@@ -30,7 +31,6 @@ const App: FC = () => {
       })
     );
   };
-
   return (
     <div className="App">
       <div className="header">
@@ -40,14 +40,14 @@ const App: FC = () => {
             placeholder="Task..."
             name="task"
             value={task}
-            onChange={handleChange}
+            onChange={taskChange}
           />
           <input
             type="number"
             placeholder="Deadline (in Days)..."
             name="deadline"
             value={deadline}
-            onChange={handleChange}
+            onChange={deadlineChange}
           />
         </div>
         <button onClick={addTask}>Add Task</button>
